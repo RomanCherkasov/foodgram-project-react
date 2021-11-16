@@ -34,3 +34,9 @@ class User(AbstractUser):
         default=USER,
         choices=CHOICES,
     )
+
+    REQUIRED_FIELDS = [
+        'first_name',
+        'last_name',
+        'email',    
+    ]
