@@ -24,7 +24,8 @@ class User(AbstractUser):
     
     email = models.EmailField(
         verbose_name='email address',
-        blank=False
+        blank=False,
+        max_length=254,
     )
 
     role = models.CharField(
@@ -33,6 +34,11 @@ class User(AbstractUser):
         null=False,
         default=USER,
         choices=CHOICES,
+    )
+
+    password = models.CharField(
+        verbose_name='User password',
+        max_length=150,
     )
 
     REQUIRED_FIELDS = [
