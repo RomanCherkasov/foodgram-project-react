@@ -72,7 +72,7 @@ class Ingredients(models.Model):
         choices=UNITS,
         default=GR,
     )
-    
+
     def __str__(self) -> str:
         return self.title
 

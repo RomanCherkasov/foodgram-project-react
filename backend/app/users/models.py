@@ -40,3 +40,6 @@ class User(AbstractUser):
         'last_name',
         'email',    
     ]
+
+    def __str__(self) -> str:
+        return self.email
