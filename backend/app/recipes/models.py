@@ -62,7 +62,6 @@ class Ingredients(models.Model):
 
     amount = models.IntegerField(
         verbose_name='Ingredients amount',
-        max_length=10,
     )
 
     units = models.CharField(
