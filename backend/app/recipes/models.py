@@ -46,6 +46,9 @@ class Recipe(models.Model):
         verbose_name='Time to cook'
     )
 
+    def __str__(self) -> str:
+        return self.title
+
 class Ingredients(models.Model):
     KG = 'KG'
     GR = 'GR'
@@ -69,6 +72,9 @@ class Ingredients(models.Model):
         choices=UNITS,
         default=GR,
     )
+    
+    def __str__(self) -> str:
+        return self.title
 
 class Tag(models.Model):
     title = models.CharField(
@@ -86,3 +92,6 @@ class Tag(models.Model):
         verbose_name='HEX formated color for tag',
         max_length=7
     )
+
+    def __str__(self) -> str:
+        return self.title
