@@ -41,11 +41,10 @@ class User(AbstractUser):
         verbose_name='User password',
         max_length=150,
     )
-
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [
         'first_name',
-        'last_name',
-        'email',    
+        'last_name', 
     ]
 
     def __str__(self) -> str:
