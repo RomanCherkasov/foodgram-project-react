@@ -8,17 +8,37 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class Recipe(models.Model):
-    ingredients = models.ForeignKey(
-        'Ingredients',
-        on_delete=models.CASCADE,
-        verbose_name='Ingredients for recipe',
-    )
-
     tags = models.ForeignKey(
         'Tag',
         on_delete=models.SET_NULL,
         verbose_name='Tags',
         null=True
+    )
+
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='author',
+        verbose_name='author',
+        null=True
+    )
+
+    ingredients = models.ManyToManyField(
+        'Ingredients',
+        verbose_name='Ingredients for recipe',
+    )
+
+    is_favorited = models.BooleanField(
+        default=True
+    )
+
+    is_in_shopping_cart = models.BooleanField(
+        default=False
+    )
+
+    name = models.TextField(
+        verbose_name='Recipe title',
+        max_length=128,
     )
 
     image = ImageField(
@@ -28,16 +48,11 @@ class Recipe(models.Model):
         verbose_name='Image',
     )
 
-    name = models.TextField(
-        verbose_name='Recipe title',
-        max_length=128,
-    )
-
     text = models.TextField(
         verbose_name='Recipe text',
     )
 
-    cooking_time = models.TimeField(
+    cooking_time = models.IntegerField(
         verbose_name='Time to cook'
     )
 
