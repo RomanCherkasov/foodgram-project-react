@@ -60,7 +60,7 @@ class Ingredients(models.Model):
         return self.name
 
 class Tag(models.Model):
-    title = models.CharField(
+    name = models.CharField(
         verbose_name='Tag title',
         max_length=50,
         unique=True,
@@ -77,4 +77,4 @@ class Tag(models.Model):
     )
 
     def __str__(self) -> str:
-        return self.title
+        return self.name
