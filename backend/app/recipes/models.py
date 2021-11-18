@@ -6,29 +6,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class Recipe(models.Model):
-    title = models.TextField(
-        verbose_name='Recipe title',
-        max_length=128,
-    )
-
-    text = models.TextField(
-        verbose_name='Recipe text',
-    )
-
-    author = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name='recipes',
-        verbose_name='Recipes author',
-    )
-
-    image = ImageField(
-        upload_to='recipes/',
-        blank=True,
-        null=True,
-        verbose_name='Image',
-    )
-
     ingredients = models.ForeignKey(
         'Ingredients',
         on_delete=models.CASCADE,
@@ -42,7 +19,24 @@ class Recipe(models.Model):
         null=True
     )
 
-    time = models.TimeField(
+    image = ImageField(
+        upload_to='recipes/',
+        blank=True,
+        null=True,
+        verbose_name='Image',
+    )
+
+
+    name = models.TextField(
+        verbose_name='Recipe title',
+        max_length=128,
+    )
+
+    text = models.TextField(
+        verbose_name='Recipe text',
+    )
+
+    cooking_time = models.TimeField(
         verbose_name='Time to cook'
     )
 
@@ -50,27 +44,14 @@ class Recipe(models.Model):
         return self.title
 
 class Ingredients(models.Model):
-    KG = 'KG'
-    GR = 'GR'
-    UNITS = (
-        (KG, 'KG'),
-        (GR, 'GR'),
-    )
 
-
-    title = models.TextField(
+    name = models.TextField(
         verbose_name='Ingredients title',
         max_length=128,
     )
 
-    amount = models.IntegerField(
-        verbose_name='Ingredients amount',
-    )
-
-    units = models.CharField(
-        max_length=2,
-        choices=UNITS,
-        default=GR,
+    measurement_unit = models.CharField(
+        max_length=10,
     )
 
     def __str__(self) -> str:

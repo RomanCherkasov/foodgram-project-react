@@ -36,6 +36,9 @@ class User(AbstractUser):
         default=USER,
         choices=CHOICES,
     )
+    is_subscribed = models.BooleanField(
+        default=False
+    )
 
     password = models.CharField(
         verbose_name='User password',
