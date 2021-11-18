@@ -28,7 +28,6 @@ class Recipe(models.Model):
         verbose_name='Image',
     )
 
-
     name = models.TextField(
         verbose_name='Recipe title',
         max_length=128,
@@ -43,7 +42,7 @@ class Recipe(models.Model):
     )
 
     def __str__(self) -> str:
-        return self.title
+        return self.name
 
 class Ingredients(models.Model):
 
@@ -54,10 +53,11 @@ class Ingredients(models.Model):
 
     measurement_unit = models.CharField(
         max_length=10,
+        null=True,
     )
 
     def __str__(self) -> str:
-        return self.title
+        return self.name
 
 class Tag(models.Model):
     title = models.CharField(
