@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import constraints, fields
+from django.db.models.base import Model
 from django.db.models.fields.related import ForeignKey
 from sorl.thumbnail import ImageField
 from django.contrib.auth import get_user_model
@@ -76,3 +78,24 @@ class Tag(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+class IsSubscribed(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='subscriber',
+    )
+
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='subscribing', 
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user','author'],
+                name='unique_subs'
+            )
+        ]
