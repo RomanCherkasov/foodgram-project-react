@@ -52,3 +52,26 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         return self.email
+
+
+
+class IsSubscribed(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='subscriber',
+    )
+
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='subscribing', 
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user','author'],
+                name='unique_subs'
+            )
+        ]
