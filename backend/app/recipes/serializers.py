@@ -1,7 +1,10 @@
 from django.db import models
-from django.db.models import fields
-from recipes.models import Ingredients, Tag, Recipe
+from django.db.models import fields, query
 from rest_framework import serializers
+from rest_framework.fields import SlugField
+
+from recipes.models import Ingredients, Recipe, Tag
+from users.serializers import UserSerializer
 
 
 class IngidientsSerializer(serializers.ModelSerializer):
@@ -27,6 +30,10 @@ class TagSerializer(serializers.ModelSerializer):
 
 class RecipesSerializer(serializers.ModelSerializer):
 
+    ingredients = IngidientsSerializer(read_only=True)
+    image = serializers.CharField()
+    author = UserSerializer(read_only=True)
+    
     class Meta:
         model = Recipe
         fields = (

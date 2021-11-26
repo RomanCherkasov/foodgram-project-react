@@ -1,12 +1,15 @@
 from django.db.models.query import QuerySet
+from django.http import request
 from django.shortcuts import get_object_or_404, render
-from rest_framework import serializers, viewsets, status
+from rest_framework import serializers, status, viewsets
 from rest_framework.decorators import permission_classes
 from rest_framework.response import Response
 
+from recipes.models import Ingredients, Recipe, Tag
+from recipes.serializers import (IngidientsSerializer, RecipesSerializer,
+                                 TagSerializer)
 from users.permissions import RegistredUser
-from recipes.models import Ingredients, Tag, Recipe
-from recipes.serializers import IngidientsSerializer, TagSerializer, RecipesSerializer
+
 
 class IngredientViewSet(viewsets.ModelViewSet):
     queryset = Ingredients.objects.all()
@@ -46,12 +49,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
         id = self.kwargs.get(self.lookup_url_kwarg)
         return get_object_or_404(Recipe, id=id)
 
+    # def create(self, request):
+    #     print(request.data.get('ingredients'))
+    #     return Response(request.data)
+
     def perform_create(self, serializer):
-        print(self.kwargs)
-        serializer.save()
-
-    def perform_update(self, serializer):
-        return super().perform_update(serializer)
-
-    def perform_destroy(self, instance):
-        return super().perform_destroy(instance)
+        print(self.request.data.get('tags')[0])
+        serializer.save(
+            author=self.request.user,
+        )

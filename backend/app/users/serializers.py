@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from users.models import User
 
+
 class RegistrationSerializer(serializers.ModelSerializer):
     role = serializers.CharField(
         max_length=10,

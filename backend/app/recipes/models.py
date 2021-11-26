@@ -1,18 +1,17 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import constraints, fields
 from django.db.models.base import Model
 from django.db.models.fields.related import ForeignKey
 from sorl.thumbnail import ImageField
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 class Recipe(models.Model):
     tags = models.ForeignKey(
         'Tag',
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         verbose_name='Tags',
-        null=True
     )
 
     author = models.ForeignKey(
