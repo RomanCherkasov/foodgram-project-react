@@ -6,13 +6,13 @@ HTTP_201_CREATED)
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
-
+from users.serializers import SubscribeSerializer
 from users.models import IsSubscribed
 
 User = get_user_model()
 
 class UserViewSet(UserViewSet):
-    def subscribe(self, request, id=None):
+    def sub(self, request, id=None):
         user = request.user
         author = get_object_or_404(User, id=id)
 
@@ -23,4 +23,9 @@ class UserViewSet(UserViewSet):
             return Response({},status=HTTP_400_BAD_REQUEST)
 
         subscribe = IsSubscribed.objects.create(user=user, author=author)
-        #TODO SERIALIZER!!!
+        serializer = SubscribeSerializer(
+            subscribe, context={
+                'request': request
+            }
+        )
+        return Response(serializer.data, status=HTTP_201_CREATED)
