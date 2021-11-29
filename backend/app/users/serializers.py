@@ -1,28 +1,42 @@
+from django.db.models import fields
 from rest_framework import serializers
-
-from users.models import User
+from rest_framework.validators import UniqueValidator
+from users.models import User, IsSubscribed
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    role = serializers.CharField(
-        max_length=10,
-        default='user',
+    email = serializers.EmailField(
+        validators=[UniqueValidator(
+            queryset=User.objects.all())]
+    )
+    username = serializers.CharField(
+        validators=[UniqueValidator(
+            queryset=User.objects.all())]
     )
 
     class Meta:
         model = User
         fields = (
-            'email',
-            'username',
-            'role',
+            'id',
             'first_name',
             'last_name',
-            'id',
+            'username',
+            'email',
+            'password',
         )
-    def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
 
 class UserSerializer(serializers.ModelSerializer):
+    is_subscribed = serializers.SerializerMethodField()
+
+    def check_is_subscribed(self, obj):
+        user = self.context.get('request').user
+        if user.is_anonymous:
+            return False
+        flag = IsSubscribed.objects.filter(
+            user=user, author=obj.id
+        ).exists()
+        return flag
+
     class Meta:
         model = User
         fields = (
