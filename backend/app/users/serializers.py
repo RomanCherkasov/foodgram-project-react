@@ -1,10 +1,11 @@
-from django.db.models import fields
+from django.contrib.auth import get_user_model
+from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from users.models import User, IsSubscribed
+from users.models import IsSubscribed
+User = get_user_model()
 
-
-class RegistrationSerializer(serializers.ModelSerializer):
+class RegistrationSerializer(UserCreateSerializer):
     email = serializers.EmailField(
         validators=[UniqueValidator(
             queryset=User.objects.all())]
@@ -25,10 +26,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
             'password',
         )
 
-class UserSerializer(serializers.ModelSerializer):
+
+class UserSerializer(UserSerializer):
     is_subscribed = serializers.SerializerMethodField()
 
-    def check_is_subscribed(self, obj):
+    def get_is_subscribed(self, obj):
         user = self.context.get('request').user
         if user.is_anonymous:
             return False
