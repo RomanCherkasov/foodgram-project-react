@@ -9,15 +9,22 @@ from rest_framework.decorators import action, permission_classes
 from rest_framework.generics import get_object_or_404
 from users.serializers import SubscribeSerializer
 from users.models import IsSubscribed
+from app.paginator import Paginator
 
 User = get_user_model()
 
 class UserViewSet(UserViewSet):
+    pagination_class = Paginator
+
+    @action(detail=False, permission_classes=[IsAuthenticated])
     def allsubs(self, request):
         user = request.user
         queryset = IsSubscribed.objects.filter(user=user)
-        serializer = SubscribeSerializer(many=True,
-        context={'request': request})
+        page = self.paginate_queryset(queryset=queryset)
+        serializer = SubscribeSerializer(
+            page,
+            many=True,
+            context={'request': request})
         return Response(serializer.data)
 
     @action(detail=True, permission_classes=[IsAuthenticated])

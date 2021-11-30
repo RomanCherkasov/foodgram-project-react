@@ -80,7 +80,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    'PAGE_SIZE': 4, #Page size for paginator
 }
 
 WSGI_APPLICATION = 'app.wsgi.application'
