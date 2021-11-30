@@ -9,12 +9,15 @@ from recipes.models import Ingredients, Recipe, Tag
 from recipes.serializers import (IngidientsSerializer, RecipesSerializer,
                                  TagSerializer)
 from users.permissions import RegistredUser
+from app.filters import IngredientsFilter
 
 
 class IngredientViewSet(viewsets.ModelViewSet):
     queryset = Ingredients.objects.all()
     serializer_class = IngidientsSerializer
     permission_classes = [RegistredUser]
+    filter_backends = (IngredientsFilter,)
+    search_fields = ('^name',)
     lookup_url_kwarg = 'id'
 
     def get_object(self):
@@ -28,14 +31,14 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = [RegistredUser]
-    lookup_url_kwarg = 'id'
+    # lookup_url_kwarg = 'id'
     
-    def get_queryset(self):
-        return self.queryset
+    # def get_queryset(self):
+    #     return self.queryset
 
-    def get_object(self):
-        id = self.kwargs.get(self.lookup_url_kwarg)
-        return get_object_or_404(Tag, id=id)
+    # def get_object(self):
+    #     id = self.kwargs.get(self.lookup_url_kwarg)
+    #     return get_object_or_404(Tag, id=id)
 
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()

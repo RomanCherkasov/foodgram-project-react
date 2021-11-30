@@ -33,7 +33,31 @@ class RecipesSerializer(serializers.ModelSerializer):
     ingredients = IngidientsSerializer(read_only=True)
     image = serializers.CharField()
     author = UserSerializer(read_only=True)
-    
+    tags = TagSerializer(read_only=True, many=True)
+    is_favorited = serializers.SerializerMethodField()
+    is_in_shopping_cart = serializers.SerializerMethodField()
+
+    # https://www.django-rest-framework.org/api-guide/fields/#serializermethodfield
+    def get_is_favorited(self, obj):
+        user = self.context.get('request').user
+        if user.is_anonymous:
+            return False
+        data = Recipe.objects.filter(
+            favorite__user=user,
+            id=obj.id
+        ).exists()
+        return data
+
+    def get_is_in_shopping_cart(self, obj):
+        user = self.context.get('request').user
+        if user.is_anonymous:
+            return False
+        data = Recipe.objects.filter(
+            cart__user=user,
+            id=obj.id
+        ).exists()
+        return data
+
     class Meta:
         model = Recipe
         fields = (
