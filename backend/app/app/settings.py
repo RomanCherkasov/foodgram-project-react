@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+from .paginator import Paginator
 from .djoser_settings import DJOSER as djoser_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -81,6 +81,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_PAGINATION_CLASS': Paginator,
     'PAGE_SIZE': 4, #Page size for paginator
 }
 

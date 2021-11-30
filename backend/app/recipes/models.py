@@ -55,7 +55,7 @@ class Recipe(models.Model):
     cooking_time = models.IntegerField(
         verbose_name='Time to cook',
         validators=(
-            validators.MinValueValidator(1)
+            validators.MinValueValidator(1, message='Need one or more'),
         )
     )
 
@@ -76,12 +76,13 @@ class IngredientsInRecipe(models.Model):
     amount = models.IntegerField(
         verbose_name='Time to cook',
         validators=(
-            validators.MinValueValidator(1)
+            validators.MinValueValidator(1, message='Need one or more'),
         )
     )
     constraints=[
         models.UniqueConstraint(
-            fields=['recipe','ingredient']
+            fields=['recipe','ingredient'],
+            name='unique_recipe_ingredients'
         )
     ]
 
