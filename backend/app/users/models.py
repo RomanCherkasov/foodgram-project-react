@@ -24,25 +24,25 @@ class IsSubscribed(models.Model):
             )
         ]
 
-class Basket(models.Model):
+class Cart(models.Model):
 
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='basket',
+        related_name='cart',
     )
 
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='basket'
+        related_name='cart'
     )
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'recipe'],
-                name='unique_basket_user'
+                name='unique_cart_user'
             )
         ]
 
