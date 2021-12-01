@@ -1,8 +1,10 @@
 from django.contrib.auth import get_user_model
+from django.db import models
 from django.db.models import fields
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+from backend.app.recipes.models import Recipe
 from users.models import IsSubscribed
 User = get_user_model()
 
@@ -72,4 +74,22 @@ class SubscribeSerializer(serializers.ModelSerializer):
             'is_subscribed',
             'recipes',
             'recipes_count',
+        )
+
+class FavoriteRecipeSerializer(serializers.ModelSerializer):
+    from app.custom_fields import Base64Imagefield
+    image = Base64Imagefield()
+    class Meta:
+        model = Recipe
+        fields = (
+            'id',
+            'name',
+            'image',
+            'cooking_time',
+        )
+        read_only_fields = (
+            'id',
+            'name',
+            'image',
+            'cooking_time',
         )
