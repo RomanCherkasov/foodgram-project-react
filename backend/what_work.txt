@@ -6,9 +6,9 @@ GET http://localhost:8000/api/users/ - Getting users list not work right
 (need paginations and rigth serializer)
 POST http://localhost:8000/api/users/set_password/ - Change password work
 GET http://localhost:8000/api/users/4/subscribe/ - subscribe work
-GET http://localhost:8000/api/users/subscriptions/ - get all subscribe work!
+GET http://localhost:8000/api/users/subscriptions/ - get all subscribe work
+DEL http://localhost:8000/api/users/4/subscribe/ - deleting subs work
 
 Next tasks:
-1. Create all users model (follow, favorite?, cart?)
-favorite and cart - need least create recipe model
-2. Create all users checkers (is_subscribe)
+1. Paginator
+2. Recipe add and view
