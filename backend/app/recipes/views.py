@@ -12,6 +12,7 @@ from recipes.serializers import (IngidientsSerializer, RecipesSerializer,
 from users.permissions import RegistredUser
 from rest_framework.permissions import IsAuthenticated
 from app.filters import IngredientsFilter
+from app.paginator import Paginator
 
 
 class IngredientViewSet(viewsets.ModelViewSet):
@@ -46,7 +47,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipesSerializer
     permission_classes = [RegistredUser]
-
+    pagination_class = Paginator
     def get_queryset(self):
         return self.queryset
 
