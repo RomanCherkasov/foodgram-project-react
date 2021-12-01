@@ -1,0 +1,12 @@
+POST http://localhost:8000/api/users/ - registration work
+POST http://localhost:8000/api/auth/token/login - token creating work
+GET http://localhost:8000/api/users/2/ - Getting users info work
+GET http://localhost:8000/api/users/me/ - Getting current user info work
+GET http://localhost:8000/api/users/ - Getting users list not work right
+(need paginations and rigth serializer)
+POST http://localhost:8000/api/users/set_password/ - Change password work
+
+Next tasks:
+1. Create all users model (follow, favorite?, cart?)
+favorite and cart - need least create recipe model
+2. Create all users checkers (is_subscribe)
