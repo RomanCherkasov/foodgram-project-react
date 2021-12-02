@@ -1,8 +1,6 @@
-from re import S
 from django.core import validators
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.db.models import constraints, fields
 
 User = get_user_model()
 
@@ -15,12 +13,13 @@ class Recipe(models.Model):
         max_length=128
     )
     image = models.ImageField(
-        upload_to='recipes/'
+        upload_to='recipes/img/'
     )
     ingredients = models.ManyToManyField(
         'Ingredient',
         through='IngredientsInRecipe',
     )
+    text = models.TextField(default='Text')
     tags = models.ManyToManyField('Tag')
     cooking_time = models.IntegerField(
         validators=(

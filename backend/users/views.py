@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from djoser.views import UserViewSet
 from django.contrib.auth import get_user_model
 from rest_framework.generics import get_object_or_404
@@ -8,9 +7,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from users.models import Subscribe
 from users.serializers import SubSerializer
+from api.paginator import Paginator
 User = get_user_model()
 
 class UserViewSet(UserViewSet):
+    pagination_class = Paginator
     @action(detail=True, permission_classes=[IsAuthenticated])
     def subscribe(self, request, id=None):
         user = request.user
@@ -36,7 +37,7 @@ class UserViewSet(UserViewSet):
     def subscriptions(self, request):
         
         serializer = SubSerializer(
-            Subscribe.objects.filter(user=request.user),
+            self.paginate_queryset(Subscribe.objects.filter(user=request.user)),
             many=True, 
             context={'request':request})
         return Response(serializer.data, status=status.HTTP_200_OK)
