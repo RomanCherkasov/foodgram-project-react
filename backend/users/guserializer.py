@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from users.models import Subscribe
 from djoser.serializers import UserSerializer
+from users.models import Subscribe
 
 User = get_user_model()
 

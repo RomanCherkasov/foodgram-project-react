@@ -1,13 +1,14 @@
-from djoser.views import UserViewSet
+from api.paginator import Paginator
 from django.contrib.auth import get_user_model
+from djoser.views import UserViewSet
+from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework import status
 from users.models import Subscribe
 from users.serializers import SubSerializer
-from api.paginator import Paginator
+
 User = get_user_model()
 
 class UserViewSet(UserViewSet):

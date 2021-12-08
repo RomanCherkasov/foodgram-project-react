@@ -1,11 +1,11 @@
+from api.custom_fields import Base64ImageField
 from django.shortcuts import get_object_or_404
+from recipes.models import Ingredient, IngredientsInRecipe, Recipe, Tag
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-
-from api.custom_fields import Base64ImageField
-from recipes.models import Ingredient, Recipe, IngredientsInRecipe, Tag
-from users.models import Cart, Favorite
 from users.guserializer import GetUserSerializer
+from users.models import Cart, Favorite
+
 
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:

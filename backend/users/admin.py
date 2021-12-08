@@ -1,6 +1,6 @@
 from django.contrib import admin
+from users.models import Cart, Favorite
 
-from users.models import Favorite, Cart
 
 class AdminFavorite(admin.ModelAdmin):
     list_display = ('id', 'user', 'recipe')

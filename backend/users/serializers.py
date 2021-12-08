@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
-from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer, UserSerializer
-from users.models import Subscribe
 from recipes.models import Recipe
 from recipes.serializers import CartAndFavoriteSerializer
+from rest_framework import serializers
+from users.models import Subscribe
 
 """
 Тут мы создаем кастомные сериализаторы для создания и получения юзера

@@ -1,11 +1,13 @@
-from rest_framework import serializers
-from django.core.files.base import ContentFile
 import base64
-import uuid
 import imghdr
-from recipes.models import IngredientsInRecipe
+import uuid
+
+from django.core.files.base import ContentFile
 from django.db.models import Sum
 from django.http import HttpResponse
+from recipes.models import IngredientsInRecipe
+from rest_framework import serializers
+
 
 class Base64ImageField(serializers.ImageField):
     def to_internal_value(self, data):

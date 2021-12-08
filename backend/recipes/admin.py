@@ -1,7 +1,7 @@
 from django.contrib import admin
+from recipes.models import Ingredient, IngredientsInRecipe, Recipe, Tag
 from users.models import Favorite
 
-from recipes.models import Recipe, Tag, Ingredient, IngredientsInRecipe
 
 class AdminRecipe(admin.ModelAdmin):
     list_display = ('author', 'name', 'favorite_count')
