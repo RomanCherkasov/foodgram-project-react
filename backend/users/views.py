@@ -35,12 +35,12 @@ class UserViewSet(UserViewSet):
 
     @action(detail=False, permission_classes=[IsAuthenticated])
     def subscriptions(self, request):
-        
+        queryset = Subscribe.objects.filter(user=request.user)
         serializer = SubSerializer(
-            self.paginate_queryset(Subscribe.objects.filter(user=request.user)),
+            self.paginate_queryset(queryset),
             many=True, 
             context={'request':request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return self.get_paginated_response(serializer.data)
 
     @subscribe.mapping.delete
     def del_subscribe(self, request, id=None):

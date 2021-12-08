@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-nb^y#rn!@%nb#vj)wd88s8irxtlyy6@bz9_lm!k+)b5t9gy&%z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -45,11 +45,14 @@ INSTALLED_APPS = [
     'users',
     'api',
     'recipes',
+    'colorfield',
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
     'django_filters',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -130,6 +133,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
-from django.db.models import fields
 from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from users.models import Subscribe
 from recipes.models import Recipe
+from recipes.serializers import CartAndFavoriteSerializer
 
 """
 Тут мы создаем кастомные сериализаторы для создания и получения юзера
@@ -25,6 +25,15 @@ class GetUserSerializer(UserSerializer):
         model = User
         fields = ('id', 'first_name', 'last_name',
         'username', 'email',)
+
+    def get_is_subscribed(self, obj):
+        user = self.context.get('request').user
+        if not user.is_anonymous:
+            return Subscribe.objects.filter(
+                user=user,
+                author=obj.id
+            ).exists()
+        return False
 
 
 class SubSerializer(serializers.ModelSerializer):
@@ -61,7 +70,12 @@ class SubSerializer(serializers.ModelSerializer):
         return is_sub
 
     def get_recipes(self, obj):
-        return 'test'
+        request = self.context.get('request')
+        limit = request.GET.get('recipes_limit')
+        queryset = Recipe.objects.filter(author = obj.author)
+        if request.GET.get('recipes_limit'):
+            queryset = queryset[:int(limit)]
+        return CartAndFavoriteSerializer(queryset, many=True).data
 
     def get_recipes_count(self, obj):
         count = Recipe.objects.filter(author=obj.author).count()

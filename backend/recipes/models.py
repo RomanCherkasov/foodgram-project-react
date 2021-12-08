@@ -4,19 +4,31 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class Ingredient(models.Model):
+    name = models.CharField(
+        max_length=128
+    )
+    measurement_unit = models.CharField(
+        max_length=128
+    )
+
+    def __str__(self):
+        return self.name
+
 class Recipe(models.Model):
     author = models.ForeignKey(
         User,
+        related_name='recipes',
         on_delete=models.CASCADE
     )
     name = models.CharField(
         max_length=128
     )
     image = models.ImageField(
-        upload_to='recipes/img/'
+        upload_to='recipes/'
     )
     ingredients = models.ManyToManyField(
-        'Ingredient',
+        Ingredient,
         through='IngredientsInRecipe',
     )
     text = models.TextField(default='Text')
@@ -30,16 +42,8 @@ class Recipe(models.Model):
         ),
     )
 
-    def __str__(self):
-        return self.name
-    
-class Ingredient(models.Model):
-    name = models.CharField(
-        max_length=128
-    )
-    measurement_unit = models.CharField(
-        max_length=128
-    )
+    class Meta:
+        ordering = ['-id']
 
     def __str__(self):
         return self.name
@@ -50,7 +54,10 @@ class Tag(models.Model):
         max_length=128,
         unique=True)
     color = ColorField('HEX Color', default='#000000')
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=128, unique=True)
+
+    class Meta:
+        ordering = ['-id']
 
     def __str__(self):
         return self.name
@@ -58,11 +65,13 @@ class Tag(models.Model):
 class IngredientsInRecipe(models.Model):
     ingredient = models.ForeignKey(
         'Ingredient',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='ingredient_in_recipe',
     )
     recipe = models.ForeignKey(
-        'Recipe',
-        on_delete=models.CASCADE
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name='ingredient_in_recipe',
     )
     amount = models.IntegerField(
         validators=(
@@ -82,4 +91,4 @@ class IngredientsInRecipe(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f'{str(self.ingredient)}:{str(self.recipe)}'
+        return str(self.ingredient)
