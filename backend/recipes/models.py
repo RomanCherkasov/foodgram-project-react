@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core import validators
 from django.db import models
+from colorfield.fields import ColorField
 
 User = get_user_model()
 
@@ -52,7 +53,6 @@ class Recipe(models.Model):
 
 
 class Tag(models.Model):
-    from colorfield.fields import ColorField
     name = models.CharField(
         max_length=128,
         unique=True)
@@ -70,12 +70,12 @@ class IngredientsInRecipe(models.Model):
     ingredient = models.ForeignKey(
         'Ingredient',
         on_delete=models.CASCADE,
-        related_name='ingredient_in_recipe',
+        related_name='ingredients_in_recipe',
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='ingredient_in_recipe',
+        related_name='ingredients_in_recipe',
     )
     amount = models.IntegerField(
         validators=(

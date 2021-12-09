@@ -46,12 +46,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
             permission_classes=[IsAuthenticated])
     def favorite(self, request, pk=None):
         instance = Favorite.objects.filter(user=request.user, recipe__id=pk)
-        if request.method == 'GET' and not (instance.exists()):
+        if request.method == 'GET' and not instance.exists():
             recipe = get_object_or_404(Recipe, id=pk)
             Favorite.objects.create(user=request.user, recipe=recipe)
             serializer = CartAndFavoriteSerializer(recipe)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        elif request.method == 'DELETE' and (instance.exists()):
+        elif request.method == 'DELETE' and instance.exists():
             instance.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
@@ -65,7 +65,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         ).values(
             'ingredient__name',
             'ingredient__measurement_unit'
-        ).annotate(amount=Sum('amount')).order_by()
+        ).annotate(amount=Sum('amount'))
         response = HttpResponse(list, content_type='text/plain')
         filename_string = 'attachment; filename="shopping_list.txt"'
         response['Content-Disposition'] = filename_string
@@ -75,12 +75,12 @@ class RecipeViewSet(viewsets.ModelViewSet):
             permission_classes=[IsAuthenticated])
     def shopping_cart(self, request, pk=None):
         instance = Cart.objects.filter(user=request.user, recipe__id=pk)
-        if request.method == 'GET' and not (instance.exists()):
+        if request.method == 'GET' and not instance.exists():
             recipe = get_object_or_404(Recipe, id=pk)
             Cart.objects.create(user=request.user, recipe=recipe)
             serializer = CartAndFavoriteSerializer(recipe)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        elif request.method == 'DELETE' and (instance.exists()):
+        elif request.method == 'DELETE' and instance.exists():
             instance.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:

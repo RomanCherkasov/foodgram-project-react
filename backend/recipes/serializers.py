@@ -19,7 +19,6 @@ class IngredientsInRecipeSerializer(serializers.ModelSerializer):
     measurement_unit = serializers.ReadOnlyField(
         source='ingredient.measurement_unit'
     )
-    print(f'id: {id}, name: {name}, m_u: {measurement_unit}')
 
     class Meta:
         model = IngredientsInRecipe
@@ -39,7 +38,6 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
-    print('serializer work')
     image = Base64ImageField(max_length=None, use_url=True)
     tags = TagSerializer(read_only=True, many=True)
     author = GetUserSerializer(read_only=True)
@@ -60,7 +58,6 @@ class RecipeSerializer(serializers.ModelSerializer):
         read_only_fields = ('author', 'tags',)
 
     def create(self, validated_data):
-        print('create!!!')
         image = validated_data.pop('image')
         tags = validated_data.pop('tags')
         ingredients = validated_data.pop('ingredients')
@@ -81,8 +78,6 @@ class RecipeSerializer(serializers.ModelSerializer):
         return super().update(recipe, validated_data)
 
     def ingredients_create(self, ingredients, recipe):
-        print('ingredients create!!!')
-        # https://docs.djangoproject.com/en/3.2/ref/models/querysets/#bulk-create
         IngredientsInRecipe.objects.bulk_create([
             IngredientsInRecipe(
                 recipe=recipe,
@@ -92,7 +87,6 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     def get_is_favorited(self, obj):
         request = self.context.get('request')
-        print(request.user.is_anonymous)
         if not request.user.is_anonymous:
             return Recipe.objects.filter(
                 favorite__user=request.user,
@@ -112,7 +106,6 @@ class RecipeSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         cooking_time = self.initial_data.get('cooking_time')
         ingredients = self.initial_data.get('ingredients')
-        print(ingredients)
         tags = self.initial_data.get('tags')
         ingredients_data_list = []
 
@@ -127,7 +120,6 @@ class RecipeSerializer(serializers.ModelSerializer):
                     Ingredient,
                     id=ingredient['id']
                 )
-                print(f'ingredient_obj: {ingredient_obj}')
                 if ingredient_obj not in ingredients:
                     ingredients_data_list.append(ingredient_obj)
                 else:
@@ -143,7 +135,6 @@ class RecipeSerializer(serializers.ModelSerializer):
             attrs['tags'] = tags
         else:
             raise serializers.ValidationError('Tag validate error')
-        print(attrs)
         return attrs
 
 
