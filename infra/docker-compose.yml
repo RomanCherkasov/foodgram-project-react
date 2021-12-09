@@ -10,10 +10,8 @@ services:
       - ./.env
 
   backend:
-    build:
-      context: ../backend
-      dockerfile: Dockerfile
-    container_name: fgrambackend
+    image: romancherkasov/infra-back:lastest
+    container_name: fgramback
     volumes:
       - static_value:/code/static/
       - media_value:/code/media/
@@ -23,9 +21,8 @@ services:
       - ./.env
 
   frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: romancherkasov/infra-front:lastest
+    container_name: fgramfront
     depends_on:
       - backend
     volumes:
