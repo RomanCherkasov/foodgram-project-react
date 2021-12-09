@@ -18,15 +18,24 @@ class RegistrationSerializer(UserCreateSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name',
-            'username', 'email', 'password')
+        fields = (
+            'id',
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+            'password')
 
 
 class GetUserSerializer(UserSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name',
-            'username', 'email',)
+        fields = (
+            'id',
+            'first_name',
+            'last_name',
+            'username',
+            'email',)
 
     def get_is_subscribed(self, obj):
         user = self.context.get('request').user
@@ -74,7 +83,7 @@ class SubSerializer(serializers.ModelSerializer):
     def get_recipes(self, obj):
         request = self.context.get('request')
         limit = request.GET.get('recipes_limit')
-        queryset = Recipe.objects.filter(author = obj.author)
+        queryset = Recipe.objects.filter(author=obj.author)
         if request.GET.get('recipes_limit'):
             queryset = queryset[:int(limit)]
         return CartAndFavoriteSerializer(queryset, many=True).data

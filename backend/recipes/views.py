@@ -22,12 +22,14 @@ class TagViewSet(ReadOnlyModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
 
+
 class IngredientViewSet(ReadOnlyModelViewSet):
     permission_classes = (IsAdmin,)
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     filter_backends = (FilterForIngredients,)
     search_fields = ('^name',)
+
 
 class RecipeViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthor,)
@@ -56,7 +58,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=['get'],
-        permission_classes=[IsAuthenticated])
+            permission_classes=[IsAuthenticated])
     def download_shopping_cart(self, request):
         list = IngredientsInRecipe.objects.filter(
             recipe__cart__user=request.user

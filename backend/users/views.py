@@ -11,8 +11,10 @@ from users.serializers import SubSerializer
 
 User = get_user_model()
 
+
 class UserViewSet(UserViewSet):
     pagination_class = Paginator
+
     @action(detail=True, permission_classes=[IsAuthenticated])
     def subscribe(self, request, id=None):
         user = request.user
@@ -23,8 +25,7 @@ class UserViewSet(UserViewSet):
         ).exists():
             return Response(
                 {'error': 'something wrong'},
-                status=status.HTTP_400_BAD_REQUEST
-                )
+                status=status.HTTP_400_BAD_REQUEST)
         serializer = SubSerializer(
             Subscribe.objects.create(
                 user=user,

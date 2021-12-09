@@ -11,5 +11,6 @@ class AdminCart(admin.ModelAdmin):
     list_display = ('id', 'user', 'recipe')
     empty_value_display = "-пусто-"
 
+
 admin.site.register(Favorite, AdminFavorite)
 admin.site.register(Cart, AdminCart)

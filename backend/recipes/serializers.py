@@ -21,7 +21,6 @@ class IngredientsInRecipeSerializer(serializers.ModelSerializer):
     )
     print(f'id: {id}, name: {name}, m_u: {measurement_unit}')
 
-
     class Meta:
         model = IngredientsInRecipe
         fields = ('id', 'name', 'measurement_unit', 'amount')
@@ -89,7 +88,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                 recipe=recipe,
                 ingredient_id=ingredient.get("id"),
                 amount=ingredient.get("amount"),
-                ) for ingredient in ingredients])
+            ) for ingredient in ingredients])
 
     def get_is_favorited(self, obj):
         request = self.context.get('request')
@@ -109,7 +108,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                 id=obj.id
             ).exists()
         return False
-    
+
     def validate(self, attrs):
         cooking_time = self.initial_data.get('cooking_time')
         ingredients = self.initial_data.get('ingredients')
@@ -124,19 +123,20 @@ class RecipeSerializer(serializers.ModelSerializer):
 
         if len(ingredients) >= 1:
             for ingredient in ingredients:
-                
                 ingredient_obj = get_object_or_404(
                     Ingredient,
                     id=ingredient['id']
                 )
                 print(f'ingredient_obj: {ingredient_obj}')
-                if not ingredient_obj in ingredients:
+                if ingredient_obj not in ingredients:
                     ingredients_data_list.append(ingredient_obj)
                 else:
-                    raise serializers.ValidationError('ingredients validator error')
+                    raise serializers.ValidationError(
+                        'ingredients validator error')
 
                 if int(ingredient['amount']) <= 0:
-                    raise serializers.ValidationError('ingredients validator error')
+                    raise serializers.ValidationError(
+                        'ingredients validator error')
             attrs['ingredients'] = ingredients
 
         if tags and len(tags) >= len(set(tags)):
@@ -149,6 +149,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
 class CartAndFavoriteSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
+
     class Meta:
         model = Recipe
         fields = ('id', 'name', 'image', 'cooking_time')
@@ -161,7 +162,6 @@ class FavoriteSerializer(serializers.ModelSerializer):
     image = Base64ImageField(source='recipe.image', read_only=True)
     cooking_time = serializers.ReadOnlyField(source='recipe.cooking_time')
 
-
     class Meta:
         model = Favorite
         fields = (
@@ -172,6 +172,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
             'user',
             'recipe',
         )
+
     def validate(self, attrs):
         user = attrs['user']
         recipe = attrs['recipe']
@@ -196,7 +197,7 @@ class CartSerializer(serializers.ModelSerializer):
             'user',
             'recipe',
         )
-    
+
     def validate(self, attrs):
         user = attrs['user']
         recipe = attrs['recipe']
