@@ -1,8 +1,8 @@
-version: '3.0'
+version: '3.3'
 services:
 
   db:
-    image: postgress:12.4
+    image: postgres:12.4
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
