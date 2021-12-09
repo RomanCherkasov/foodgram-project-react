@@ -21,7 +21,10 @@ class UserViewSet(UserViewSet):
         if user == author or Subscribe.objects.filter(
             user=user, author=author
         ).exists():
-            return Response({'error':'something wrong'},status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'error': 'something wrong'},
+                status=status.HTTP_400_BAD_REQUEST
+                )
         serializer = SubSerializer(
             Subscribe.objects.create(
                 user=user,
@@ -39,8 +42,8 @@ class UserViewSet(UserViewSet):
         queryset = Subscribe.objects.filter(user=request.user)
         serializer = SubSerializer(
             self.paginate_queryset(queryset),
-            many=True, 
-            context={'request':request})
+            many=True,
+            context={'request': request})
         return self.get_paginated_response(serializer.data)
 
     @subscribe.mapping.delete

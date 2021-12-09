@@ -12,14 +12,16 @@ class IngredientSerializer(serializers.ModelSerializer):
         model = Ingredient
         fields = ('id', 'name', 'measurement_unit')
 
+
 class IngredientsInRecipeSerializer(serializers.ModelSerializer):
-    
     id = serializers.ReadOnlyField(source='ingredient.id')
     name = serializers.ReadOnlyField(source='ingredient.name')
     measurement_unit = serializers.ReadOnlyField(
         source='ingredient.measurement_unit'
     )
     print(f'id: {id}, name: {name}, m_u: {measurement_unit}')
+
+
     class Meta:
         model = IngredientsInRecipe
         fields = ('id', 'name', 'measurement_unit', 'amount')
@@ -30,10 +32,12 @@ class IngredientsInRecipeSerializer(serializers.ModelSerializer):
             )
         ]
 
+
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('id', 'name', 'color', 'slug')
+
 
 class RecipeSerializer(serializers.ModelSerializer):
     print('serializer work')
@@ -85,8 +89,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                 recipe=recipe,
                 ingredient_id=ingredient.get("id"),
                 amount=ingredient.get("amount"),
-                ) for ingredient in ingredients
-        ])
+                ) for ingredient in ingredients])
 
     def get_is_favorited(self, obj):
         request = self.context.get('request')
@@ -98,7 +101,6 @@ class RecipeSerializer(serializers.ModelSerializer):
             ).exists()
         return False
 
-
     def get_is_in_shoping_cart(self, obj):
         request = self.context.get('request')
         if not request.user.is_anonymous:
@@ -108,7 +110,6 @@ class RecipeSerializer(serializers.ModelSerializer):
             ).exists()
         return False
     
-
     def validate(self, attrs):
         cooking_time = self.initial_data.get('cooking_time')
         ingredients = self.initial_data.get('ingredients')
@@ -153,6 +154,7 @@ class CartAndFavoriteSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'image', 'cooking_time')
         read_only_fields = ('id', 'name', 'image', 'cooking_time')
 
+
 class FavoriteSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source='recipe.id')
     name = serializers.ReadOnlyField(source='recipe.name')
@@ -176,6 +178,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
         if Favorite.objects.filter(user=user, recipe=recipe).exists():
             raise serializers.ValidationError('Already exist')
         return attrs
+
 
 class CartSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source='recipe.id')

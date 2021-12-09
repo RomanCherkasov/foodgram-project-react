@@ -1,13 +1,14 @@
 from django.contrib.auth import get_user_model
-from django.db.models import fields
 from django_filters.rest_framework import FilterSet, filters
 from recipes.models import Recipe
 from rest_framework.filters import SearchFilter
 
 User = get_user_model()
 
+
 class FilterForIngredients(SearchFilter):
     search_param = 'name'
+
 
 class FilterForAuthorAndTag(FilterSet):
     tags = filters.AllValuesMultipleFilter(field_name='tags__slug')

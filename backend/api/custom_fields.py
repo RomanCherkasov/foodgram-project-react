@@ -3,9 +3,6 @@ import imghdr
 import uuid
 
 from django.core.files.base import ContentFile
-from django.db.models import Sum
-from django.http import HttpResponse
-from recipes.models import IngredientsInRecipe
 from rest_framework import serializers
 
 
@@ -26,5 +23,4 @@ class Base64ImageField(serializers.ImageField):
 
     def get_file_extension(self, file_name, decoded_file):
         extension = imghdr.what(file_name, decoded_file)
-        extension = "jpg" if extension == "jpeg" else extension
-        return extension
+        return "jpg" if extension == "jpeg" else extension

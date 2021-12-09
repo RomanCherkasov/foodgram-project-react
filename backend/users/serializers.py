@@ -11,6 +11,7 @@ from users.models import Subscribe
 
 User = get_user_model()
 
+
 class RegistrationSerializer(UserCreateSerializer):
     email = serializers.EmailField()
     username = serializers.CharField()
@@ -18,13 +19,14 @@ class RegistrationSerializer(UserCreateSerializer):
     class Meta:
         model = User
         fields = ('id', 'first_name', 'last_name',
-        'username', 'email', 'password')
+            'username', 'email', 'password')
+
 
 class GetUserSerializer(UserSerializer):
     class Meta:
         model = User
         fields = ('id', 'first_name', 'last_name',
-        'username', 'email',)
+            'username', 'email',)
 
     def get_is_subscribed(self, obj):
         user = self.context.get('request').user
@@ -78,5 +80,4 @@ class SubSerializer(serializers.ModelSerializer):
         return CartAndFavoriteSerializer(queryset, many=True).data
 
     def get_recipes_count(self, obj):
-        count = Recipe.objects.filter(author=obj.author).count()
-        return count
+        return Recipe.objects.filter(author=obj.author).count()

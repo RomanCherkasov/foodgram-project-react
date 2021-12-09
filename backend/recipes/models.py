@@ -4,6 +4,7 @@ from django.db import models
 
 User = get_user_model()
 
+
 class Ingredient(models.Model):
     name = models.CharField(
         max_length=128
@@ -14,6 +15,7 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Recipe(models.Model):
     author = models.ForeignKey(
@@ -48,6 +50,7 @@ class Recipe(models.Model):
     def __str__(self):
         return self.name
 
+
 class Tag(models.Model):
     from colorfield.fields import ColorField
     name = models.CharField(
@@ -61,6 +64,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class IngredientsInRecipe(models.Model):
     ingredient = models.ForeignKey(

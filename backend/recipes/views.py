@@ -55,7 +55,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['get'],
+        permission_classes=[IsAuthenticated])
     def download_shopping_cart(self, request):
         list = IngredientsInRecipe.objects.filter(
             recipe__cart__user=request.user
@@ -64,9 +65,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
             'ingredient__measurement_unit'
         ).annotate(amount=Sum('amount')).order_by()
         response = HttpResponse(list, content_type='text/plain')
-        response['Content-Disposition'] = 'attachment; filename="shopping_list.txt"'
+        filename_string = 'attachment; filename="shopping_list.txt"'
+        response['Content-Disposition'] = filename_string
         return response
-
 
     @action(detail=True, methods=['get', 'delete'],
             permission_classes=[IsAuthenticated])
@@ -82,4 +83,3 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
