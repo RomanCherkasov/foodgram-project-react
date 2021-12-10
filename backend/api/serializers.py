@@ -3,15 +3,15 @@ from django.shortcuts import get_object_or_404
 from recipes.models import Ingredient, IngredientsInRecipe, Recipe, Tag
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-from users.guserializer import GetUserSerializer
-from users.models import Cart, Favorite
-
+from users.models import Cart, Favorite, Subscribe
+from django.contrib.auth import get_user_model
+# from djoser.serializers import UserCreateSerializer, UserSerializer
+# from recipes.serializers import CartAndFavoriteSerializer
 
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = ('id', 'name', 'measurement_unit')
-
 
 class IngredientsInRecipeSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source='ingredient.id')
@@ -35,7 +35,6 @@ class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('id', 'name', 'color', 'slug')
-
 
 class RecipeSerializer(serializers.ModelSerializer):
     image = Base64ImageField(max_length=None, use_url=True)
@@ -133,61 +132,3 @@ class RecipeSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Tag validate error')
         return attrs
 
-
-class CartAndFavoriteSerializer(serializers.ModelSerializer):
-    image = Base64ImageField()
-
-    class Meta:
-        model = Recipe
-        fields = ('id', 'name', 'image', 'cooking_time')
-        read_only_fields = ('id', 'name', 'image', 'cooking_time')
-
-
-class FavoriteSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source='recipe.id')
-    name = serializers.ReadOnlyField(source='recipe.name')
-    image = Base64ImageField(source='recipe.image', read_only=True)
-    cooking_time = serializers.ReadOnlyField(source='recipe.cooking_time')
-
-    class Meta:
-        model = Favorite
-        fields = (
-            'id',
-            'name',
-            'image',
-            'cooking_time',
-            'user',
-            'recipe',
-        )
-
-    def validate(self, attrs):
-        user = attrs['user']
-        recipe = attrs['recipe']
-        if Favorite.objects.filter(user=user, recipe=recipe).exists():
-            raise serializers.ValidationError('Already exist')
-        return attrs
-
-
-class CartSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source='recipe.id')
-    name = serializers.ReadOnlyField(source='recipe.name')
-    image = Base64ImageField(source='recipe.image', read_only=True)
-    cooking_time = serializers.ReadOnlyField(source='recipe.cooking_time')
-
-    class Meta:
-        model = Cart
-        fields = (
-            'id',
-            'name',
-            'image',
-            'cooking_time',
-            'user',
-            'recipe',
-        )
-
-    def validate(self, attrs):
-        user = attrs['user']
-        recipe = attrs['recipe']
-        if Cart.objects.filter(user=user, recipe=recipe).exists():
-            raise serializers.ValidationError('Already exist')
-        return attrs
