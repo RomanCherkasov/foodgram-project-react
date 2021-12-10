@@ -1,14 +1,14 @@
-from api.filters import FilterForAuthorAndTag, FilterForIngredients
-from api.paginator import Paginator
-from api.permissions import IsAdmin, IsAuthor
 from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+
+from api.filters import FilterForAuthorAndTag, FilterForIngredients
+from api.paginator import Paginator
+from api.permissions import IsAdmin, IsAuthor
+from api.serializers import (CartAndFavoriteSerializer, IngredientSerializer,
+                             RecipeSerializer, TagSerializer)
 from django_filters.rest_framework import DjangoFilterBackend
 from recipes.models import Ingredient, IngredientsInRecipe, Recipe, Tag
-from api.serializers import (CartAndFavoriteSerializer,
-                                 IngredientSerializer, RecipeSerializer,
-                                 TagSerializer)
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated

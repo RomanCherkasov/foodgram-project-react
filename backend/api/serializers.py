@@ -1,11 +1,13 @@
-from api.custom_fields import Base64ImageField
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+
+from api.custom_fields import Base64ImageField
+from djoser.serializers import UserCreateSerializer, UserSerializer
 from recipes.models import Ingredient, IngredientsInRecipe, Recipe, Tag
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from users.models import Cart, Favorite, Subscribe
-from django.contrib.auth import get_user_model
-from djoser.serializers import UserCreateSerializer, UserSerializer
+
 # from recipes.serializers import CartAndFavoriteSerializer
 
 User = get_user_model()
