@@ -9,7 +9,7 @@ REST_FRAMEWORK = REST_FRAMEWORK
 DJOSER = DJOSER
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
-SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-nb^y#rn!@%nb#vj)wd88s8irxtlyy6@bz9_lm!k+)b5t9gy&%z')
+SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-1')
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
