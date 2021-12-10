@@ -19,8 +19,8 @@ class Ingredient(models.Model):
 
     class Meta:
         ordering = ['-id']
-        verbose_name='Ингредиент'
-        verbose_name_plural='Ингредиенты'
+        verbose_name ='Ингредиент'
+        verbose_name_plural ='Ингредиенты'
 
     def __str__(self):
         return self.name
@@ -64,8 +64,8 @@ class Recipe(models.Model):
 
     class Meta:
         ordering = ['-id']
-        verbose_name='Рецепт'
-        verbose_name_plural='Рецепты'
+        verbose_name = 'Рецепт'
+        verbose_name_plural = 'Рецепты'
 
     def __str__(self):
         return self.name
@@ -80,13 +80,12 @@ class Tag(models.Model):
     slug = models.SlugField(
         max_length=128,
         unique=True,
-        verbose_name='Слаг тега'
-        )
+        verbose_name='Слаг тега')
 
     class Meta:
         ordering = ['-id']
-        verbose_name='Тег'
-        verbose_name_plural='Теги'
+        verbose_name = 'Тег'
+        verbose_name_plural = 'Теги'
 
     def __str__(self):
         return self.name
@@ -117,8 +116,8 @@ class IngredientsInRecipe(models.Model):
 
     class Meta:
         ordering = ['-id']
-        verbose_name='Ингредиент в рецепте'
-        verbose_name_plural='Ингредиенты в рецепте'
+        verbose_name = 'Ингредиент в рецепте'
+        verbose_name_plural = 'Ингредиенты в рецепте'
         constraints = [
             models.UniqueConstraint(
                 fields=['recipe', 'ingredient'],
