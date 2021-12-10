@@ -104,14 +104,12 @@ class RecipeSerializer(serializers.ModelSerializer):
         return False
 
     def validate(self, attrs):
-        cooking_time = self.initial_data.get('cooking_time')
-        ingredients = self.initial_data.get('ingredients')
-        tags = self.initial_data.get('tags')
+        cooking_time = attrs['cooking_time']
+        ingredients = attrs['ingredients']
+        tags = attrs['tags']
         ingredients_data_list = []
 
-        if int(cooking_time) > 0:
-            attrs['cooking_time'] = cooking_time
-        else:
+        if int(cooking_time) <= 0:
             raise serializers.ValidationError('Cooking time validate error')
 
         if len(ingredients) >= 1:
@@ -131,9 +129,7 @@ class RecipeSerializer(serializers.ModelSerializer):
                         'ingredients validator error')
             attrs['ingredients'] = ingredients
 
-        if tags and len(tags) >= len(set(tags)):
-            attrs['tags'] = tags
-        else:
+        if tags and len(tags) < len(set(tags)):
             raise serializers.ValidationError('Tag validate error')
         return attrs
 
