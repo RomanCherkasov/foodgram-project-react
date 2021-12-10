@@ -7,24 +7,12 @@ from backend.rest_and_djoser_config import DJOSER, REST_FRAMEWORK
 
 REST_FRAMEWORK = REST_FRAMEWORK
 DJOSER = DJOSER
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 load_dotenv()
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
+SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-nb^y#rn!@%nb#vj)wd88s8irxtlyy6@bz9_lm!k+)b5t9gy&%z')
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
