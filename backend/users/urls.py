@@ -1,8 +1,8 @@
 from django.urls import include, path
 
+from api.views import UserViewSet
 from djoser import views
 from rest_framework.routers import DefaultRouter
-from api.views import UserViewSet
 
 app_name = 'users'
 router = DefaultRouter()
