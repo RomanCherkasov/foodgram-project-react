@@ -1,8 +1,7 @@
+from colorfield.fields import ColorField
 from django.contrib.auth import get_user_model
 from django.core import validators
 from django.db import models
-
-from colorfield.fields import ColorField
 
 User = get_user_model()
 
