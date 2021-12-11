@@ -8,8 +8,6 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 from users.models import Cart, Favorite, Subscribe
 
-# from recipes.serializers import CartAndFavoriteSerializer
-
 User = get_user_model()
 
 
@@ -240,8 +238,6 @@ class SubSerializer(serializers.ModelSerializer):
     first_name = serializers.ReadOnlyField(source='author.first_name')
     last_name = serializers.ReadOnlyField(source='author.last_name')
     email = serializers.ReadOnlyField(source='author.email')
-
-    # https://www.django-rest-framework.org/api-guide/fields/#serializermethodfield
     is_subscribed = serializers.SerializerMethodField()
     recipes = serializers.SerializerMethodField()
     recipes_count = serializers.SerializerMethodField()
@@ -260,12 +256,11 @@ class SubSerializer(serializers.ModelSerializer):
         )
 
     def get_is_subscribed(self, obj):
-        is_sub = Subscribe.objects.filter(
+        return Subscribe.objects.filter(
             user=obj.user,
             author=obj.author
         ).exists()
-        print(is_sub)
-        return is_sub
+         
 
     def get_recipes(self, obj):
         request = self.context.get('request')
