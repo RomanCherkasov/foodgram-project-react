@@ -3,19 +3,20 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
-from api.filters import FilterForAuthorAndTag, FilterForIngredients
-from api.paginator import Paginator
-from api.permissions import IsAdmin, IsAuthor
-from api.serializers import (CartAndFavoriteSerializer, IngredientSerializer,
-                             RecipeSerializer, SubSerializer, TagSerializer)
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
-from recipes.models import Ingredient, IngredientsInRecipe, Recipe, Tag
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
+
+from api.filters import FilterForAuthorAndTag, FilterForIngredients
+from api.paginator import Paginator
+from api.permissions import IsAdmin, IsAuthor
+from api.serializers import (CartAndFavoriteSerializer, IngredientSerializer,
+                             RecipeSerializer, SubSerializer, TagSerializer)
+from recipes.models import Ingredient, IngredientsInRecipe, Recipe, Tag
 from users.models import Cart, Favorite, Subscribe
 
 User = get_user_model()
