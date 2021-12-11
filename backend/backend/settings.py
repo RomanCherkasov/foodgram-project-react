@@ -10,7 +10,7 @@ DJOSER = DJOSER
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-1')
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['*']
 
