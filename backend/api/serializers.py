@@ -260,7 +260,6 @@ class SubSerializer(serializers.ModelSerializer):
             user=obj.user,
             author=obj.author
         ).exists()
-         
 
     def get_recipes(self, obj):
         request = self.context.get('request')
