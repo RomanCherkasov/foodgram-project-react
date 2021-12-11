@@ -24,7 +24,6 @@ class Subscribe(models.Model):
         ordering = ['-id']
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
-        ordering = ['-id']
         constraints = [
             models.UniqueConstraint(
                 fields=['user', 'author'],
