@@ -143,11 +143,11 @@ class RecipeSerializer(serializers.ModelSerializer):
                     Ingredient,
                     id=ingredient['id']
                 )
-                if ingredient_obj not in ingredients:
+                if ingredient_obj not in ingredients_data_list:
                     ingredients_data_list.append(ingredient_obj)
                 else:
                     raise serializers.ValidationError(
-                        'ingredients validator error')
+                        'Одинаковые ингредиенты')
 
                 if int(ingredient['amount']) <= 0:
                     raise serializers.ValidationError(

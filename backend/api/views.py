@@ -70,7 +70,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
             'ingredient__name',
             'ingredient__measurement_unit'
         ).annotate(amount=Sum('amount'))
-        response = HttpResponse(list, content_type='text/plain')
+        cart_string = ''
+        for count, obj in enumerate(list, start=1):
+            cart_string += (f'{count}. {obj["ingredient__name"]}: '
+                            f'{obj["ingredient__measurement_unit"]} {obj["amount"]}\n')
+        response = HttpResponse(cart_string, content_type='text/plain')
         filename_string = 'attachment; filename="shopping_list.txt"'
         response['Content-Disposition'] = filename_string
         return response
