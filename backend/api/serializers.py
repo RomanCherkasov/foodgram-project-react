@@ -66,18 +66,18 @@ class RecipeSerializer(serializers.ModelSerializer):
     tags = TagSerializer(read_only=True, many=True)
     author = GetUserSerializer(read_only=True)
     ingredients = IngredientsInRecipeSerializer(
-        source='ingredient_in_recipe',
+        source='ingredients_in_recipe',
         many=True,
         read_only=True,
     )
 
     is_favorited = serializers.SerializerMethodField()
-    is_in_shoping_cart = serializers.SerializerMethodField()
+    is_in_shopping_cart = serializers.SerializerMethodField()
 
     class Meta:
         model = Recipe
         fields = ('id', 'tags', 'author', 'ingredients', 'is_favorited',
-                  'is_in_shoping_cart', 'name', 'image', 'text',
+                  'is_in_shopping_cart', 'name', 'image', 'text',
                   'cooking_time')
         read_only_fields = ('author', 'tags',)
 
@@ -118,7 +118,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             ).exists()
         return False
 
-    def get_is_in_shoping_cart(self, obj):
+    def get_is_in_shopping_cart(self, obj):
         request = self.context.get('request')
         if not request.user.is_anonymous:
             return Recipe.objects.filter(
@@ -185,6 +185,8 @@ class FavoriteSerializer(serializers.ModelSerializer):
             'user',
             'recipe',
         )
+        extra_kwargs = {'user': {'write_only': True},
+                        'recipe': {'write_only': True}}
 
     def validate(self, attrs):
         user = attrs['user']

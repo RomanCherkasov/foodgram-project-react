@@ -10,7 +10,7 @@ DJOSER = DJOSER
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
 SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-1')
-DEBUG = os.environ.get('DEBUG', default=False)
+DEBUG = os.environ.get('DEBUG', default=True)
 
 ALLOWED_HOSTS = ['*']
 
@@ -72,6 +72,12 @@ DATABASES = {
         'PORT': os.environ.get('DB_PORT'),
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
