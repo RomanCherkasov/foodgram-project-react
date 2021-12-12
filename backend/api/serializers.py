@@ -12,6 +12,7 @@ User = get_user_model()
 
 
 class GetUserSerializer(UserSerializer):
+    is_subscribed = serializers.SerializerMethodField()
     class Meta:
         model = User
         fields = (
@@ -19,7 +20,9 @@ class GetUserSerializer(UserSerializer):
             'first_name',
             'last_name',
             'username',
-            'email',)
+            'email',
+            'is_subscribed',
+        )
 
     def get_is_subscribed(self, obj):
         user = self.context.get('request').user
